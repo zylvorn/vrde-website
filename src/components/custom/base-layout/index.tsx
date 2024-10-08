@@ -36,7 +36,11 @@ const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
   return (
     <div
       className='w-full h-screen'
-      style={{ backgroundImage: `url('${backgroundImage}')` }}
+      style={{
+        backgroundImage: backgroundImage
+          ? `url('${backgroundImage}')`
+          : undefined,
+      }}
     >
       <div
         className={
