@@ -145,7 +145,7 @@ const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
           </div>
         </div>
       </div>
-      {children}
+      {!modal && children}
     </div>
   )
 }

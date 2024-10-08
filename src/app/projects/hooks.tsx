@@ -23,26 +23,48 @@ export type TData = {
 }
 
 const useProjects = () => {
-  const [projectState, setProjectState] = useState<TData>({
-    projects: [],
-    tags: [],
-    html: '',
-  })
+  const [projects, setProjects] = useState<TProject[]>([])
+  const [tags, setTags] = useState<(TTag & { selected: boolean })[]>([])
+  const [html, setHTML] = useState<string>('')
+  const [loadingProjects, setLoadingProjects] = useState(false)
   const getProjects = async () => {
     try {
-      const { data } = await axios.get<TData>('/api/projects')
-      setProjectState({
-        ...data,
-        tags: data.tags.map((e) => ({ ...e, selected: false })),
-      })
+      setLoadingProjects(true)
+      const { data } = await axios.get<TProject[]>('/api/projects')
+      setProjects(data)
+      setLoadingProjects(false)
+    } catch (error) {
+      setLoadingProjects(false)
+      console.log(error)
+    }
+  }
+  const getTags = async () => {
+    try {
+      const { data } = await axios.get<(TTag & { selected: boolean })[]>(
+        '/api/projects/tags'
+      )
+      setTags(data.map((e) => ({ ...e, selected: false })))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const getHTML = async () => {
+    try {
+      const { data } = await axios.get<string>('/api/projects/html')
+      setHTML(data)
     } catch (error) {
       console.log(error)
     }
   }
   return {
-    projectState,
     getProjects,
-    setProjectState,
+    getTags,
+    getHTML,
+    setTags,
+    loadingProjects,
+    projects,
+    tags,
+    html,
   }
 }
 export default useProjects

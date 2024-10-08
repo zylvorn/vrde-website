@@ -59,7 +59,7 @@ body {
   height: 100%; /* or set fixed height */
   object-fit: cover; /* or 'contain', depending on how you want it to behave */
 }
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .nav-dynamic-show {
     display: none;
   }
