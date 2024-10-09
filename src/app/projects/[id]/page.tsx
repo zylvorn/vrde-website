@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { TProject } from '../hooks'
-import ImageCarousel from '@/components/custom/carousel'
+// import ImageCarousel from '@/components/custom/carousel'
 import moment from 'moment'
 import Image from 'next/image'
 
@@ -26,19 +26,37 @@ const ProjectByID = () => {
       getProjectByID(id)
     } else router.back()
   }, [params])
-  const imgsCarousel = useMemo(() => {
-    return (
-      project?.images.map((img) => ({
-        src: `/static/projects/${img}`,
-        alt: 'image',
-      })) || []
-    )
+  // const imgsCarousel = useMemo(() => {
+  //   return (
+  //     project?.images.map((img) => ({
+  //       src: `/static/projects/${img}`,
+  //       alt: 'image',
+  //     })) || []
+  //   )
+  // }, [project])
+  const mainImg = useMemo(() => {
+    if (project?.images) {
+      if (project.images.length > 0) {
+        const [img] = project.images
+        return `/static/projects/${img}`
+      }
+    }
+    return null
   }, [project])
   return (
     <AuthLayout>
       <BaseLayout>
-        <div className='p-[7%] no-scrollbar' style={{ marginTop: 70 }}>
-          <ImageCarousel images={imgsCarousel} />
+        <div className='px-[7%] no-scrollbar' style={{ marginTop: 70 }}>
+          {/* <ImageCarousel images={imgsCarousel} /> */}
+          {mainImg && (
+            <img
+              src={mainImg || ''}
+              alt={'main img'}
+              className='img-fit'
+              style={{ objectFit: 'cover', height: 600 }}
+              loading='lazy'
+            />
+          )}
           <div className='mt-10 mb-10'>
             <div className='mb-10'>
               <p className='font-bold text-gray'>PROJECT</p>
