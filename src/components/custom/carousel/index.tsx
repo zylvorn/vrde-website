@@ -68,15 +68,23 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
       },
     ],
   }
-
-  return (
+  return images.length <= 1 ? (
+    <div>
+      <img
+        src={images[0]?.src}
+        alt={images[0]?.alt || `Image`}
+        className='img-fit'
+        style={{ objectFit: 'cover', height: 600 }}
+      />
+    </div>
+  ) : (
     <Slider {...settings}>
       {images.map((image, index) => (
         <div key={index}>
           <img
             src={image.src}
             alt={image.alt || `Image ${index + 1}`}
-            className='img-fit transition ease-out duration-500'
+            className='img-fit'
             style={{ objectFit: 'cover', height: 600 }}
           />
         </div>
