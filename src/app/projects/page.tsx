@@ -59,7 +59,7 @@ const Projects = () => {
   return (
     <AuthLayout>
       <BaseLayout>
-        <div className='p-10' style={{ marginTop: 70 }}>
+        <div className='p-[7%]' style={{ marginTop: 70 }}>
           <div
             className='no-scrollbar w-[70%]'
             dangerouslySetInnerHTML={{

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Grotta';
+  src: url('/fonts/Grotta-Trial-Semibold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -9,15 +16,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --background: #0a0a0a; */
     --foreground: #ededed;
   }
 }
 
 body {
-  /* color: var(--foreground); */
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Grotta', Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
@@ -59,7 +64,7 @@ body {
   height: 100%; /* or set fixed height */
   object-fit: cover; /* or 'contain', depending on how you want it to behave */
 }
-@media (min-width: 769px) {
+@media (min-width: 1000px) {
   .nav-dynamic-show {
     display: none;
   }
@@ -85,6 +90,13 @@ body {
   .project-menu-category {
     min-width: 150px;
   }
+}
+@media (max-width: 1000px) {
+  .nav-dynamic-hidden {
+    display: none;
+  }
+}
+@media (max-width: 1000px) {
   .nav-dynamic-hidden {
     display: none;
   }
@@ -106,7 +118,7 @@ body {
   .project-menu-category {
     min-width: 150px;
   }
-  .nav-dynamic-hidden {
-    display: none;
-  }
+}
+.bg-gradient-home {
+  @apply bg-gradient-to-r from-[#16322c] to-transparent;
 }

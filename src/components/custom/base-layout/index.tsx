@@ -1,14 +1,13 @@
 'use client'
 import React, { useMemo, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import ClearIcon from '@mui/icons-material/Clear'
+import NavButton from '../nav-button'
 
 type TProps = {
   children?: React.ReactNode
-  backgroundImage?: string
 }
-const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
+const BaseLayout: React.FC<TProps> = ({ children }) => {
   const pathName = usePathname()
   const router = useRouter()
   const onClick = (p: string) => {
@@ -16,17 +15,23 @@ const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
     setModal(false)
   }
   const selectedPath = (p: string) => {
+    const defaultCl = 'font-bold cursor-pointer z-[100] hover:text-blue text-lg'
     if (pathName.includes(p)) {
-      return ' text-blue'
+      return defaultCl + ' text-blue'
     }
-    if (pathName === '/home') return ' text-white'
-    return ' text-black'
+    if (pathName === '/home') return defaultCl + ' text-white'
+    return defaultCl + ' text-black'
   }
   const selectedPathMobile = (p: string) => {
+    const defaultCl =
+      'font-bold cursor-pointer mb-3 hover:text-cdark hover:border-2 hover:border-cdark hover:rounded-lg w-full p-6 '
     if (pathName.includes(p)) {
-      return ' text-2xl text-cdark border-2 border-cdark rounded-lg w-full'
+      return (
+        defaultCl +
+        ' text-2xl text-cdark border-2 border-cdark rounded-lg w-full'
+      )
     }
-    return ' text-2xl text-white'
+    return defaultCl + ' text-2xl text-white'
   }
   const setClass = useMemo(() => {
     if (pathName !== '/home') return ' fixed top-0 bg-white'
@@ -34,18 +39,10 @@ const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
   }, [pathName])
   const [modal, setModal] = useState(false)
   return (
-    <div
-      className='w-full h-screen'
-      style={{
-        backgroundImage: backgroundImage
-          ? `url('${backgroundImage}')`
-          : undefined,
-      }}
-    >
+    <div>
       <div
         className={
-          'nav-dynamic-show px-5 py-4 flex justify-end fixed top-0 right-0 z-50 w-full' +
-          (pathName !== '/home' ? 'bg-cgreen' : '')
+          'nav-dynamic-show px-5 py-4 flex justify-end fixed top-0 right-0 z-[99] w-full'
         }
       >
         {modal ? (
@@ -55,50 +52,37 @@ const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
             onClick={() => setModal(false)}
           />
         ) : (
-          <FormatListBulletedIcon
-            className='cursor-pointer'
-            style={{ width: 50, height: 50 }}
+          <NavButton
             onClick={() => setModal(true)}
+            fill={pathName === '/home' ? 'white' : 'black'}
           />
         )}
       </div>
       {modal && (
         <div
           style={{ paddingTop: 200 }}
-          className='nav-dynamic-show px-5 py-4 w-full h-full bg-cgreen z-50 items-center flex flex-col overflow-y-hidden'
+          className='nav-dynamic-show px-5 py-4 w-full h-screen bg-cgreen z-[99] items-center flex flex-col overflow-y-hidden'
         >
           <div
-            className={
-              'font-bold cursor-pointer mb-3 hover:text-cdark hover:border-2 hover:border-cdark hover:rounded-lg w-full p-6' +
-              selectedPathMobile('home')
-            }
+            className={selectedPathMobile('home')}
             onClick={() => onClick('/home')}
           >
             Home
           </div>
           <div
-            className={
-              'font-bold cursor-pointer mb-3 hover:text-cdark hover:border-2 hover:border-cdark hover:rounded-lg w-full p-6' +
-              selectedPathMobile('projects')
-            }
+            className={selectedPathMobile('projects')}
             onClick={() => onClick('/projects')}
           >
-            Project
+            Projects
           </div>
           <div
-            className={
-              'font-bold cursor-pointer mb-3 hover:text-cdark hover:border-2 hover:border-cdark hover:rounded-lg w-full p-6' +
-              selectedPathMobile('about')
-            }
+            className={selectedPathMobile('about')}
             onClick={() => onClick('/about')}
           >
             About
           </div>
           <div
-            className={
-              'font-bold cursor-pointer mb-12 hover:text-cdark hover:border-2 hover:border-cdark hover:rounded-lg w-full p-6' +
-              selectedPathMobile('contacts')
-            }
+            className={selectedPathMobile('contacts')}
             onClick={() => onClick('/contacts')}
           >
             Contacts
@@ -106,40 +90,30 @@ const BaseLayout: React.FC<TProps> = ({ children, backgroundImage }) => {
         </div>
       )}
       <div
-        className={`flex w-full items-center justify-center h-[70px] ${setClass} z-50 nav-dynamic-hidden`}
+        className={`flex w-full items-center justify-center h-[70px] ${setClass} z-[99] fixed top-0 nav-dynamic-hidden`}
       >
-        <div className='flex w-[40%] items-center justify-around'>
+        <div className='flex w-[30%] items-center justify-around'>
           <div
-            className={
-              'font-bold cursor-pointer hover:text-blue' + selectedPath('home')
-            }
+            className={selectedPath('home')}
             onClick={() => onClick('/home')}
           >
             Home
           </div>
           <div
-            className={
-              'font-bold cursor-pointer hover:text-blue' +
-              selectedPath('project')
-            }
+            className={selectedPath('project')}
             onClick={() => onClick('/projects')}
           >
-            Project
+            Projects
           </div>
           <div
-            className={
-              'font-bold cursor-pointer hover:text-blue' + selectedPath('about')
-            }
+            className={selectedPath('about')}
             onClick={() => onClick('/about')}
           >
             About
           </div>
           <div
             onClick={() => onClick('/contacts')}
-            className={
-              'font-bold cursor-pointer hover:text-blue' +
-              selectedPath('contact')
-            }
+            className={selectedPath('contact')}
           >
             Contact
           </div>

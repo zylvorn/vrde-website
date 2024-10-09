@@ -22,8 +22,8 @@ const Home = () => {
   }, [])
   return (
     <AuthLayout>
-      <BaseLayout backgroundImage={''}>
-        <div className='p-10' style={{ marginTop: 70 }}>
+      <BaseLayout>
+        <div className='p-[7%]' style={{ marginTop: 70 }}>
           {aboutState.sections.map((item, id) => (
             <p key={Math.random()} className='mb-10'>
               {!(id % 2) ? (

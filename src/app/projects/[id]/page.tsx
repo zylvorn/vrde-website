@@ -37,7 +37,7 @@ const ProjectByID = () => {
   return (
     <AuthLayout>
       <BaseLayout>
-        <div className='p-10 no-scrollbar' style={{ marginTop: 70 }}>
+        <div className='p-[7%] no-scrollbar' style={{ marginTop: 70 }}>
           <ImageCarousel images={imgsCarousel} />
           <div className='mt-10 mb-10'>
             <div className='mb-10'>

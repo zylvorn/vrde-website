@@ -40,8 +40,8 @@ const Home = () => {
   }
   return (
     <AuthLayout>
-      <BaseLayout backgroundImage={''}>
-        <div className='flex items-center p-10' style={{ marginTop: 100 }}>
+      <BaseLayout>
+        <div className='flex items-center p-[7%]' style={{ marginTop: 100 }}>
           <div
             className='no-scrollbar'
             dangerouslySetInnerHTML={{
@@ -49,7 +49,7 @@ const Home = () => {
             }}
           />
         </div>
-        <div className='p-10'>
+        <div className='p-[7%]'>
           <div className='flex flex-col justify-center mt-6 items-center'>
             <div className='text-3xl mb-6'>Send Message</div>
             <Input

@@ -4,11 +4,13 @@ import AuthLayout from '../auth'
 import BaseLayout from '@/components/custom/base-layout'
 import axios from 'axios'
 import IHome from './types'
+import Image from 'next/image'
+import publicImage from '../../../public/images/background.jpg'
 
 const Home = () => {
   const [homeState, setHomeState] = useState<IHome.IState>({
     html: '',
-    image_path: '/static/home/home.jpg',
+    image_path: null,
   })
   const getHome = async () => {
     try {
@@ -21,8 +23,16 @@ const Home = () => {
   }, [])
   return (
     <AuthLayout>
-      <BaseLayout backgroundImage={homeState.image_path}>
-        <div className='flex items-center h-[calc(100vh-200px)] pl-[50px]'>
+      <BaseLayout>
+        <div className='absolute top-0 left-0 h-screen w-screen bg-gradient-home' />
+        <Image
+          src={homeState.image_path || publicImage}
+          alt=''
+          className='z-[-1] img-fit w-screen h-screen'
+          layout='fill'
+          loading='lazy'
+        />
+        <div className='flex items-center h-[calc(100vh-200px)] pl-[50px] absolute z-[50]'>
           <div
             className='no-scrollbar'
             dangerouslySetInnerHTML={{
