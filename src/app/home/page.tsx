@@ -5,7 +5,6 @@ import BaseLayout from '@/components/custom/base-layout'
 import axios from 'axios'
 import IHome from './types'
 import Image from 'next/image'
-import publicImage from '../../../public/images/background.jpg'
 
 const Home = () => {
   const [homeState, setHomeState] = useState<IHome.IState>({
@@ -26,7 +25,7 @@ const Home = () => {
       <BaseLayout>
         <div className='absolute top-0 left-0 h-screen w-screen bg-gradient-home' />
         <Image
-          src={homeState.image_path || publicImage}
+          src={homeState.image_path || ''}
           alt=''
           className='z-[-1] img-fit w-screen h-screen'
           layout='fill'

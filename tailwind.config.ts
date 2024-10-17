@@ -19,6 +19,8 @@ const config: Config = {
         gray: '#888',
         cgreen: '#16322c',
         cdark: '#384f4b',
+        cgray: '#B7BDB8',
+        cvrde: '#525C3C',
       },
       borderColor: {
         'custom-blue': '#a3cdec',

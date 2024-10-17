@@ -26,6 +26,7 @@ const useProjects = () => {
   const [projects, setProjects] = useState<TProject[]>([])
   const [tags, setTags] = useState<(TTag & { selected: boolean })[]>([])
   const [html, setHTML] = useState<string>('')
+  const [showCategory, setShowCategory] = useState(false)
   const [loadingProjects, setLoadingProjects] = useState(false)
   const getProjects = async () => {
     try {
@@ -58,6 +59,8 @@ const useProjects = () => {
   }
   return {
     getProjects,
+    showCategory,
+    setShowCategory,
     getTags,
     getHTML,
     setTags,

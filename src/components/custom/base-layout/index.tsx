@@ -15,12 +15,13 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
     setModal(false)
   }
   const selectedPath = (p: string) => {
-    const defaultCl = 'font-bold cursor-pointer z-[100] hover:text-blue text-lg'
+    const defaultCl =
+      'font-bold cursor-pointer z-[100] hover:text-cvrde text-lg'
     if (pathName.includes(p)) {
-      return defaultCl + ' text-blue'
+      return defaultCl + ' text-cvrde'
     }
     if (pathName === '/home') return defaultCl + ' text-white'
-    return defaultCl + ' text-black'
+    return defaultCl + ' text-cgray'
   }
   const selectedPathMobile = (p: string) => {
     const defaultCl =

@@ -29,13 +29,19 @@ const Home = () => {
               {!(id % 2) ? (
                 <div className='flex items-center'>
                   <div className='flex-grow border-t border-gray-400 mr-3' />
-                  <span style={{ fontSize: 64 }} className='text-right'>
+                  <span
+                    style={{ fontSize: 64, fontFamily: 'Lora' }}
+                    className='text-right'
+                  >
                     {item.name}
                   </span>
                 </div>
               ) : (
                 <div className='flex items-center'>
-                  <span style={{ fontSize: 64 }} className='text-right'>
+                  <span
+                    style={{ fontSize: 64, fontFamily: 'Lora' }}
+                    className='text-right'
+                  >
                     {item.name}
                   </span>
                   <div className='flex-grow border-t border-gray-400 ml-3' />
@@ -53,7 +59,10 @@ const Home = () => {
             <div className='w-full'>
               <div className='flex gap-3 items-center mb-5'>
                 <div className='flex-grow border-t border-gray-400' />
-                <div style={{ fontSize: 64 }} className='text-center'>
+                <div
+                  style={{ fontSize: 64, fontFamily: 'Lora' }}
+                  className='text-center'
+                >
                   Our Clients
                 </div>
                 <div className='flex-grow border-t border-gray-400' />

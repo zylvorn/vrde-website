@@ -47,52 +47,33 @@ const ProjectByID = () => {
     <AuthLayout>
       <BaseLayout>
         <div className='px-[7%] no-scrollbar' style={{ marginTop: 70 }}>
-          {/* <ImageCarousel images={imgsCarousel} /> */}
           {mainImg && (
             <img
               src={mainImg || ''}
               alt={'main img'}
-              className='img-fit'
+              className='img-fit transition-opacity duration-300'
               style={{ objectFit: 'cover', height: 600 }}
               loading='lazy'
             />
           )}
-          <div className='mt-10 mb-10'>
-            <div className='mb-10'>
-              <p className='font-bold text-gray'>PROJECT</p>
-              <p className='text-3xl'>{project?.name}</p>
-            </div>
-            <div className='flex flex-wrap justify-between mb-12'>
-              <div>
-                <p className='font-bold text-gray'>LOCATION</p>
-                <p className='text-2xl'>{project?.location}</p>
-              </div>
-              <div>
-                <p className='font-bold text-gray'>YEARS</p>
-                <p className='text-2xl'>
-                  {moment(project?.date).format('YYYY')}
-                </p>
-              </div>
-              <div>
-                <p className='font-bold text-gray'>TEAM</p>
-                <p className='text-2xl'>{project?.team}</p>
-              </div>
-            </div>
-            <div className='flex flex-wrap justify-between mb-12'>
-              <div>
-                <p className='font-bold text-gray'>CLIENT</p>
-                <p className='text-2xl'>{project?.client}</p>
-              </div>
-              <div>
-                <p className='font-bold text-gray'>CATEGORY</p>
-                <p className='text-2xl'>
-                  {project?.tags.map((item) => item.name).join(', ')}
-                </p>
-              </div>
-              <div />
-            </div>
+          <div className='mt-10 mb-10 flex flex-col gap-2 items-center'>
+            <p
+              className='text-3xl font-bold'
+              style={{ fontFamily: 'Source Sans Pro' }}
+            >
+              {project?.name}
+            </p>
+            <p className='text-xl' style={{ fontFamily: 'Source Sans Pro' }}>
+              {project?.location}
+            </p>
+            <p className='text-xl' style={{ fontFamily: 'Source Sans Pro' }}>
+              {moment(project?.date).format('YYYY')}
+            </p>
+            <p className='text-xl' style={{ fontFamily: 'Source Sans Pro' }}>
+              {project?.team}
+            </p>
           </div>
-          <div className='no-scrollbar gap-3 w-full grid-container-big'>
+          <div className='no-scrollbar gap-3 w-full grid-container-big transition-opacity duration-300'>
             {project?.images.map((img) => (
               <Image
                 key={Math.random()}
