@@ -59,9 +59,11 @@ const Projects = () => {
     return groups.sort((a, b) => a.name.localeCompare(b.name))
   }, [tags])
   const [categoryWidth, setCategoryWidth] = useState('0px')
+  const [imageWidth, setImageWidth] = useState('100%')
   const toggleCategory = () => {
     setShowCategory((prev) => !prev)
-    setCategoryWidth(showCategory ? '0px' : '200px')
+    setCategoryWidth(showCategory ? '0px' : '200px') // Adjust width accordingly
+    setImageWidth(showCategory ? '100%' : 'calc(100% - 200px)') // Adjust image grid width
   }
   return (
     <AuthLayout>
@@ -91,54 +93,56 @@ const Projects = () => {
                   width: categoryWidth,
                 }}
                 className={`no-scrollbar overflow-y-scroll  ${
-                  showCategory ? 'mr-6 project-menu-category px-2' : ''
+                  showCategory ? 'mr-6 px-2' : ''
                 } transition-width duration-1000 ease-in-out`}
               >
-                {showCategory &&
-                  tagsByGroup.map((group, idx) => (
-                    <Fragment key={Math.random()}>
-                      {group.tags.map((item, idxx) => (
-                        <Fragment key={item.id}>
-                          {idxx === 0 && (
-                            <div className='mb-4 text-xl'>{group.name}</div>
-                          )}
-                          <div className='flex gap-3 items-center mb-4'>
-                            <CCheckbox
-                              checked={item.selected}
-                              onClick={(val) => {
-                                setTags(
-                                  tags.map((t) => {
-                                    if (t.id === item.id)
-                                      return { ...t, selected: val }
-                                    return t
-                                  })
-                                )
-                              }}
-                            />
-                            <div
-                              onClick={() => {
-                                setTags(
-                                  tags.map((t) => {
-                                    if (t.id === item.id)
-                                      return { ...t, selected: !t.selected }
-                                    return t
-                                  })
-                                )
-                              }}
-                              className='cursor-pointer hover:text-cvrde'
-                            >
-                              {item.name}
-                            </div>
+                {tagsByGroup.map((group, idx) => (
+                  <Fragment key={Math.random()}>
+                    {group.tags.map((item, idxx) => (
+                      <Fragment key={item.id}>
+                        {idxx === 0 && (
+                          <div className='mb-4 text-xl'>{group.name}</div>
+                        )}
+                        <div className='flex gap-3 items-center mb-4'>
+                          <CCheckbox
+                            checked={item.selected}
+                            onClick={(val) => {
+                              setTags(
+                                tags.map((t) => {
+                                  if (t.id === item.id)
+                                    return { ...t, selected: val }
+                                  return t
+                                })
+                              )
+                            }}
+                          />
+                          <div
+                            onClick={() => {
+                              setTags(
+                                tags.map((t) => {
+                                  if (t.id === item.id)
+                                    return { ...t, selected: !t.selected }
+                                  return t
+                                })
+                              )
+                            }}
+                            className='cursor-pointer hover:text-cvrde'
+                          >
+                            {item.name}
                           </div>
-                        </Fragment>
-                      ))}
-                      {idx + 1 < tagsByGroup.length && (
-                        <div className='flex-grow border-t border-gray-400 mb-4' />
-                      )}
-                    </Fragment>
-                  ))}
+                        </div>
+                      </Fragment>
+                    ))}
+                    {idx + 1 < tagsByGroup.length && (
+                      <div className='flex-grow border-t border-gray-400 mb-4' />
+                    )}
+                  </Fragment>
+                ))}
               </div>
-              <div className='w-full'>
+              <div
+                className='w-full transition-width duration-1000 ease-in-out'
+                style={{ width: imageWidth }}
+              >
                 {loadingProjects && <LinearProgress className='!mb-2' />}
                 <div
                   className={`no-scrollbar w-full grid-container !gap-0 transition-opacity duration-300 ${
