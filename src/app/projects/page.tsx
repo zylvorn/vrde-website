@@ -7,7 +7,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import CCheckbox from '@/components/custom/checkcbox'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Autocomplete, LinearProgress, TextField } from '@mui/material'
+import { LinearProgress, MenuItem, Select } from '@mui/material'
 import { base64BlurDataURL } from '@/utils/constants/constants'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -109,19 +109,20 @@ const Projects = () => {
               >
                 Category
               </strong>
-              <Autocomplete
-                onChange={(_, value) => {
-                  if (value) setOption(value)
+              <Select
+                size='small'
+                value={option}
+                onChange={(e) => {
+                  setOption(e.target.value)
                 }}
                 className='w-[200px] mt-2'
-                options={options}
-                getOptionLabel={(s) => s}
-                renderInput={(params) => (
-                  <TextField {...params} label='Sort Options' />
-                )}
-                renderOption={(props, option) => <li {...props}>{option}</li>}
-                value={option}
-              />
+              >
+                {options.map((o) => (
+                  <MenuItem key={o} value={o}>
+                    {o}
+                  </MenuItem>
+                ))}
+              </Select>
             </div>
             <div className={`flex ${showCategory ? 'gap-4' : ''}`}>
               <div
