@@ -85,7 +85,7 @@ body {
     ); /* Force 2 images per row on smaller screens */
   }
   .grid-container-big {
-    max-height: 300px;
+    max-height: 80vh;
     overflow-y: scroll;
     grid-template-columns: repeat(
       2,

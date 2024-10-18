@@ -42,9 +42,9 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
   return (
     <div>
       <div
-        className={
-          'nav-dynamic-show px-5 py-4 flex justify-end fixed top-0 right-0 z-[99] w-full'
-        }
+        className={`nav-dynamic-show px-5 py-4 flex justify-end fixed top-0 right-0 z-[99] w-full ${
+          pathName === '/home' ? '!overflow-hidden' : ''
+        }`}
       >
         {modal ? (
           <ClearIcon
