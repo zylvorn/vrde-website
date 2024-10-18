@@ -64,7 +64,7 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
         className={`nav-dynamic-show py-2 flex justify-start fixed top-0 left-0 z-[99]`}
         onClick={() => onClick('/home')}
       >
-        <VRDELogo fill={pathName === '/home' ? 'white' : 'green'} />
+        <VRDELogo fill={pathName === '/home' || modal ? 'white' : 'green'} />
       </div>
       {modal && (
         <div
