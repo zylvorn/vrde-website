@@ -31,7 +31,7 @@ const Home = () => {
           layout='fill'
           loading='lazy'
         />
-        <div className='flex items-center h-[calc(100vh-200px)] pl-[50px] absolute z-[50]'>
+        <div className='flex items-center h-[calc(100vh-200px)] pl-[10%] pr-[10px] absolute z-[50] w-full'>
           <div
             className='no-scrollbar'
             dangerouslySetInnerHTML={{
