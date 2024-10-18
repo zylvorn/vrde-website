@@ -15,6 +15,8 @@ export type TProject = {
   images: string[]
   name: string
   location: string
+  cover_img?: string
+  main_img?: string
 }
 export type TData = {
   projects: TProject[]
@@ -57,7 +59,10 @@ const useProjects = () => {
       console.log(error)
     }
   }
+  const options = ['Newest', 'Oldest', 'A-Z', 'Z-A']
+  const [option, setOption] = useState('Newest')
   return {
+    options,
     getProjects,
     showCategory,
     setShowCategory,
@@ -68,6 +73,8 @@ const useProjects = () => {
     projects,
     tags,
     html,
+    option,
+    setOption,
   }
 }
 export default useProjects

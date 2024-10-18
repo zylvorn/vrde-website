@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import ClearIcon from '@mui/icons-material/Clear'
 import NavButton from '../nav-button'
+import VRDELogo from '../vrde-logo'
 
 type TProps = {
   children?: React.ReactNode
@@ -42,22 +43,28 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
   return (
     <div>
       <div
-        className={`nav-dynamic-show px-5 py-4 flex justify-end fixed top-0 right-0 z-[99] w-full ${
-          pathName === '/home' ? '!overflow-hidden' : ''
-        }`}
+        className={`nav-dynamic-show px-5 py-4 flex justify-end fixed top-0 right-0 z-[99] w-full 
+          ${pathName === '/home' ? '!overflow-hidden' : ''}`}
       >
         {modal ? (
           <ClearIcon
             className='cursor-pointer'
-            style={{ width: 50, height: 50, color: 'white' }}
+            style={{ width: 36, height: 36, color: 'white' }}
             onClick={() => setModal(false)}
           />
         ) : (
           <NavButton
             onClick={() => setModal(true)}
-            fill={pathName === '/home' ? 'white' : 'black'}
+            fill={pathName === '/home' ? 'white' : '#637047'}
           />
         )}
+      </div>
+
+      <div
+        className={`nav-dynamic-show py-2 flex justify-start fixed top-0 left-0 z-[99]`}
+        onClick={() => onClick('/home')}
+      >
+        <VRDELogo fill={pathName === '/home' ? 'white' : 'green'} />
       </div>
       {modal && (
         <div
@@ -91,8 +98,9 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
         </div>
       )}
       <div
-        className={`flex w-full items-center justify-center h-[70px] ${setClass} z-[99] fixed top-0 nav-dynamic-hidden`}
+        className={`flex w-full items-center justify-between h-[70px] ${setClass} z-[99] fixed top-0 nav-dynamic-hidden`}
       >
+        <VRDELogo fill={pathName === '/home' ? 'white' : 'green'} />
         <div className='flex w-[30%] items-center justify-around'>
           <div
             className={selectedPath('home')}
@@ -119,6 +127,7 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
             Contact
           </div>
         </div>
+        <div />
       </div>
       {!modal && children}
     </div>

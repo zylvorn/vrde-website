@@ -18,14 +18,5 @@ const CCheckbox: React.FC<TProps> = ({ checked, onClick }) => {
       onClick={() => onClick(!checked)}
     />
   )
-  // return (
-  //   <div
-  //     className={
-  //       'border rounded-sm border-blue w-[25px] h-[25px] cursor-pointer ' +
-  //       (checked ? 'bg-cblack' : '')
-  //     }
-  //     onClick={() => onClick(!checked)}
-  //   />
-  // )
 }
 export default CCheckbox

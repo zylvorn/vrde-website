@@ -7,7 +7,9 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import CCheckbox from '@/components/custom/checkcbox'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { LinearProgress } from '@mui/material'
+import { Autocomplete, LinearProgress, TextField } from '@mui/material'
+import { base64BlurDataURL } from '@/utils/constants/constants'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Projects = () => {
   const router = useRouter()
@@ -22,6 +24,9 @@ const Projects = () => {
     tags,
     html,
     projects: projectData,
+    options,
+    option,
+    setOption,
   } = useProjects()
   useEffect(() => {
     getProjects()
@@ -37,13 +42,31 @@ const Projects = () => {
     return isAny
   }
   const projects = useMemo(() => {
+    let beforeSort = projectData
     const allSelectedTags = tags.filter((x) => x.selected)
-    if (allSelectedTags.length === 0) return projectData
-    return projectData.filter((item) => {
-      const isAnyData = isAny(item.tags, allSelectedTags)
-      return isAnyData
-    })
-  }, [projectData, tags])
+    if (allSelectedTags.length > 0) {
+      beforeSort = projectData.filter((item) => {
+        const isAnyData = isAny(item.tags, allSelectedTags)
+        return isAnyData
+      })
+    }
+    switch (option) {
+      case 'Newest':
+        return beforeSort.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        )
+      case 'Oldest':
+        return beforeSort.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        )
+      case 'A-Z':
+        return beforeSort.sort((a, b) => a.name.localeCompare(b.name))
+      case 'Z-A':
+        return beforeSort.sort((a, b) => b.name.localeCompare(a.name))
+      default:
+        return beforeSort
+    }
+  }, [projectData, tags, option])
   const tagsByGroup = useMemo(() => {
     const groups: { name: string; tags: (TTag & { selected: boolean })[] }[] =
       []
@@ -76,16 +99,30 @@ const Projects = () => {
             }}
           />
           <div>
-            {tags.length > 0 && (
-              <div className='mb-4 text-2xl px-[1%]'>
-                <strong
-                  className='cursor-pointer hover:text-cvrde'
-                  onClick={toggleCategory}
-                >
-                  Category
-                </strong>
-              </div>
-            )}
+            <div
+              className='flex mb-4 text-2xl items-center px-[1%] justify-between'
+              style={{ display: tags.length > 0 ? undefined : 'none' }}
+            >
+              <strong
+                className='cursor-pointer hover:text-cvrde'
+                onClick={toggleCategory}
+              >
+                Category
+              </strong>
+              <Autocomplete
+                onChange={(_, value) => {
+                  if (value) setOption(value)
+                }}
+                className='w-[200px] mt-2'
+                options={options}
+                getOptionLabel={(s) => s}
+                renderInput={(params) => (
+                  <TextField {...params} label='Sort Options' />
+                )}
+                renderOption={(props, option) => <li {...props}>{option}</li>}
+                value={option}
+              />
+            </div>
             <div className={`flex ${showCategory ? 'gap-4' : ''}`}>
               <div
                 style={{
@@ -149,37 +186,49 @@ const Projects = () => {
                     loadingProjects ? 'opacity-50' : 'opacity-100'
                   }`}
                 >
-                  {projects.map((item) => {
-                    const fImage = item.images[0]
-                    return (
-                      <div
-                        key={item.id}
-                        className='relative group cursor-pointer'
-                        onClick={() => router.push(`/projects/${item.id}`)}
-                      >
-                        <div className='w-full h-0 pb-[100%] relative'>
-                          <Image
-                            className='absolute inset-0 w-full h-full object-cover transition ease-out duration-300 hover:scale-105'
-                            alt={item.name}
-                            loading='lazy'
-                            width={300}
-                            height={300}
-                            src={`/static/projects/${fImage}`}
-                          />
-                        </div>
-                        <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                          <div className='items-center justify-center text-center'>
-                            <p
-                              className='text-white text-lg'
-                              style={{ fontFamily: 'Source Sans Pro' }}
-                            >
-                              {item.name}
-                            </p>
+                  <AnimatePresence>
+                    {projects.map((item) => {
+                      const firstImg = item.images[0]
+                      const fImage =
+                        item.images.find((x) => x === item.cover_img) ||
+                        firstImg
+                      return (
+                        <motion.div
+                          key={item.id}
+                          layout
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className='relative group cursor-pointer'
+                          onClick={() => router.push(`/projects/${item.id}`)}
+                        >
+                          <div className='w-full h-0 pb-[100%] relative'>
+                            <Image
+                              className='absolute inset-0 w-full h-full object-cover transition ease-out duration-300 hover:scale-105'
+                              alt={item.name}
+                              loading='lazy'
+                              width={300}
+                              height={300}
+                              src={`/static/projects/${fImage}`}
+                              placeholder='blur'
+                              blurDataURL={base64BlurDataURL}
+                            />
                           </div>
-                        </div>
-                      </div>
-                    )
-                  })}
+                          <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                            <div className='items-center justify-center text-center'>
+                              <p
+                                className='text-white text-lg'
+                                style={{ fontFamily: 'Source Sans Pro' }}
+                              >
+                                {item.name}
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
