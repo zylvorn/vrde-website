@@ -65,17 +65,26 @@ const ProjectByID = () => {
           <div className='mt-10 mb-10 flex flex-col gap-2 items-center'>
             <p
               className='text-3xl font-bold'
-              style={{ fontFamily: 'Source Sans Pro' }}
+              style={{ fontFamily: 'Source Sans Pro', textAlign: 'center' }}
             >
               {project?.name}
             </p>
-            <p className='text-xl' style={{ fontFamily: 'Source Sans Pro' }}>
+            <p
+              className='text-xl'
+              style={{ fontFamily: 'Source Sans Pro', textAlign: 'center' }}
+            >
               {project?.location}
             </p>
-            <p className='text-xl' style={{ fontFamily: 'Source Sans Pro' }}>
+            <p
+              className='text-xl'
+              style={{ fontFamily: 'Source Sans Pro', textAlign: 'center' }}
+            >
               {moment(project?.date).format('YYYY')}
             </p>
-            <p className='text-xl' style={{ fontFamily: 'Source Sans Pro' }}>
+            <p
+              className='text-xl'
+              style={{ fontFamily: 'Source Sans Pro', textAlign: 'center' }}
+            >
               {project?.team}
             </p>
           </div>
