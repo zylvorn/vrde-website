@@ -49,8 +49,7 @@ const Home = () => {
           />
           {showProject.id && (
             <button
-              className='bg-white w-fit font-semibold h-16 text-[#16322c] px-4 items-center flex'
-              style={{ borderRadius: 40 }}
+              className='bg-white w-fit font-semibold h-16 text-[#16322c] px-4 items-center flex rounded-full fixed bottom-[15%] left-[10%] z-[1000]'
               onClick={() => {
                 if (showProject.id) {
                   window.location.href = `/projects/${showProject.id}`
