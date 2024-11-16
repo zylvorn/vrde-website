@@ -10,6 +10,7 @@ import { TProject } from '../hooks'
 import moment from 'moment'
 import Image from 'next/image'
 import { base64BlurDataURL } from '@/utils/constants/constants'
+import OpenImageDialog from './open-image-dialog'
 
 const ProjectByID = () => {
   const params = useParams()
@@ -46,20 +47,30 @@ const ProjectByID = () => {
     }
     return null
   }, [project])
+  const [dialogProps, setDialogProps] = useState({
+    isOpen: false,
+    image: '',
+  })
   return (
     <AuthLayout>
       <BaseLayout>
+        <OpenImageDialog
+          isOpen={dialogProps.isOpen}
+          onClose={() => setDialogProps({ image: '', isOpen: false })}
+          image={dialogProps.image}
+        />
         <div className='px-[7%] no-scrollbar' style={{ marginTop: 70 }}>
           {mainImg && (
             <Image
               src={mainImg || ''}
               alt={'main img'}
-              className='img-fit transition-opacity duration-300'
+              className='img-fit transition-opacity duration-300 cursor-pointer'
               style={{ objectFit: 'cover', height: 600 }}
               width={600}
               height={600}
               placeholder='blur'
               blurDataURL={base64BlurDataURL}
+              onClick={() => setDialogProps({ image: mainImg, isOpen: true })}
             />
           )}
           <div className='mt-10 mb-10 flex flex-col gap-2 items-center'>
@@ -89,18 +100,26 @@ const ProjectByID = () => {
             </p>
           </div>
           <div className='no-scrollbar gap-3 w-full grid-container-big transition-opacity duration-300'>
-            {project?.images.map((img) => (
-              <Image
-                key={Math.random()}
-                className='border rounded-md img-fit'
-                alt={'alt-img'}
-                placeholder='blur'
-                width={300}
-                height={540}
-                src={`/static/projects/${img}`}
-                blurDataURL={base64BlurDataURL}
-              />
-            ))}
+            {project?.images
+              .filter((x) => x !== project.main_img)
+              .map((img) => (
+                <Image
+                  key={Math.random()}
+                  className='border rounded-md img-fit cursor-pointer'
+                  alt={'alt-img'}
+                  placeholder='blur'
+                  width={300}
+                  height={540}
+                  src={`/static/projects/${img}`}
+                  blurDataURL={base64BlurDataURL}
+                  onClick={() =>
+                    setDialogProps({
+                      image: `/static/projects/${img}`,
+                      isOpen: true,
+                    })
+                  }
+                />
+              ))}
           </div>
         </div>
       </BaseLayout>
