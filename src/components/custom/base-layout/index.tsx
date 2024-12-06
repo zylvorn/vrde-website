@@ -5,8 +5,9 @@ import ClearIcon from '@mui/icons-material/Clear'
 import NavButton from '../nav-button'
 import VRDELogo from '../vrde-logo'
 import Link from 'next/link'
-import Footer from './footer'
-
+import dynamic from 'next/dynamic'
+// import Footer from './footer'
+const Footer = dynamic(() => import('./footer'))
 type TProps = {
   children?: React.ReactNode
   showFooter?: boolean

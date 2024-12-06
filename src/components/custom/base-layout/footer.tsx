@@ -38,38 +38,38 @@ const Footer: React.FC = () => {
 
           {/* Links */}
           <div className='flex flex-wrap gap-8'>
-            <ul className='mt-2 text-gray-600 space-y-2 hover:text-cvrde text-lg'>
+            <ul className='text-gray-600 hover:text-cvrde text-lg'>
               <Link href='/about'>About</Link>
             </ul>
-            <ul className='mt-2 text-gray-600 space-y-2 hover:text-cvrde text-lg'>
+            <ul className='text-gray-600 hover:text-cvrde text-lg'>
               <Link href='/projects'>Project</Link>
             </ul>
-            <ul className='mt-2 text-gray-600 space-y-2 hover:text-cvrde text-lg'>
+            <ul className='text-gray-600 hover:text-cvrde text-lg'>
               <Link href='/contacts'>Contact</Link>
             </ul>
           </div>
 
           {/* Address */}
           <div className='mt-6 md:mt-0 grid'>
-            <a
-              href='https://www.google.com/maps/uv?pb=!1s0x2e69c5bbd9518aed%3A0xca4be3469bba0852!3m1!7e115!4s%2Fmaps%2Fplace%2Fvrde%2Bstudio%2F%40-6.5672822%2C106.7808303%2C3a%2C75y%2C37.21h%2C90t%2Fdata%3D*213m4*211e1*213m2*211sZgGji9R7U9iji2Rs2EdTmg*212e0*214m2*213m1*211s0x2e69c5bbd9518aed%3A0xca4be3469bba0852%3Fsa%3DX%26ved%3D2ahUKEwinsNuvjJKKAxWm8qACHSxFG3wQpx96BAgwEAA!5svrde%20studio%20-%20Google%20Search!15sCgIgAQ&imagekey=!1e2!2sZgGji9R7U9iji2Rs2EdTmg&cr=le_a7&hl=en&ved=1t%3A206134&ictx=111'
-              type='__blank'
-              className='text-gray-800 font-medium hover:text-cvrde'
+            <div
+              className='hover:text-cvrde cursor-pointer text-gray-800'
+              onClick={() => {
+                window.open(
+                  'https://www.google.com/maps/uv?pb=!1s0x2e69c5bbd9518aed%3A0xca4be3469bba0852!3m1!7e115!4s%2Fmaps%2Fplace%2Fvrde%2Bstudio%2F%40-6.5672822%2C106.7808303%2C3a%2C75y%2C37.21h%2C90t%2Fdata%3D*213m4*211e1*213m2*211sZgGji9R7U9iji2Rs2EdTmg*212e0*214m2*213m1*211s0x2e69c5bbd9518aed%3A0xca4be3469bba0852%3Fsa%3DX%26ved%3D2ahUKEwinsNuvjJKKAxWm8qACHSxFG3wQpx96BAgwEAA!5svrde%20studio%20-%20Google%20Search!15sCgIgAQ&imagekey=!1e2!2sZgGji9R7U9iji2Rs2EdTmg&cr=le_a7&hl=en&ved=1t%3A206134&ictx=111',
+                  '__blank'
+                )
+              }}
             >
-              Jl. Tanjung VIII
-            </a>
-            <a
-              href='https://www.google.com/maps/uv?pb=!1s0x2e69c5bbd9518aed%3A0xca4be3469bba0852!3m1!7e115!4s%2Fmaps%2Fplace%2Fvrde%2Bstudio%2F%40-6.5672822%2C106.7808303%2C3a%2C75y%2C37.21h%2C90t%2Fdata%3D*213m4*211e1*213m2*211sZgGji9R7U9iji2Rs2EdTmg*212e0*214m2*213m1*211s0x2e69c5bbd9518aed%3A0xca4be3469bba0852%3Fsa%3DX%26ved%3D2ahUKEwinsNuvjJKKAxWm8qACHSxFG3wQpx96BAgwEAA!5svrde%20studio%20-%20Google%20Search!15sCgIgAQ&imagekey=!1e2!2sZgGji9R7U9iji2Rs2EdTmg&cr=le_a7&hl=en&ved=1t%3A206134&ictx=111'
-              type='__blank'
-              className='text-gray-600 mt-2 hover:text-cvrde'
-            >
-              Blok O6 No.14, RT.03/RW.12, Tanah Sareal, <br />
-              Kec. Tanah Sereal, Kota Bogor, Jawa Barat 16164
-            </a>
+              <div className='font-medium'>Jl. Tanjung VIII</div>
+              <div className='mt-2'>
+                Blok O6 No.14, RT.03/RW.12, Tanah Sareal, <br />
+                Kec. Tanah Sereal, Kota Bogor, Jawa Barat 16164
+              </div>
+            </div>
             <p className='text-gray-600 mt-2'>
               <a className='hover:text-cvrde' href='#' onClick={sendMessage}>
                 {contactState.whatsapp}
-              </a>{' '}
+              </a>
               <br />
               <a className='hover:text-cvrde' href='#'>
                 studiovrde.id
