@@ -29,8 +29,14 @@ export default function RootLayout({
     <html lang='en'>
       <head>
         <link
+          rel='preload'
           href='https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap'
-          rel='stylesheet'
+          as='font'
+        />
+        <link
+          rel='preload'
+          href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap'
+          as='font'
         />
       </head>
       <body

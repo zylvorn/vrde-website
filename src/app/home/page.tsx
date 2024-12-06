@@ -35,7 +35,7 @@ const Home = () => {
         <div className='absolute top-0 left-0 !h-screen !w-screen bg-gradient-home' />
         <Image
           src={homeState.image_path || ''}
-          alt=''
+          alt='home-img'
           className='z-[-1] img-fit !w-screen !h-screen'
           layout='fill'
           loading='lazy'

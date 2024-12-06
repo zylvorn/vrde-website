@@ -13,6 +13,19 @@ const nextConfig = {
       },
     ]
   },
+  async headers() {
+    return [
+      {
+        source: '/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, immutable', // 1 month = 30 days * 24 hours * 60 minutes * 60 seconds
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig

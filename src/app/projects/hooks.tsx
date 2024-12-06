@@ -35,10 +35,12 @@ const useProjects = () => {
       setLoadingProjects(true)
       const { data } = await axios.get<TProject[]>('/api/projects')
       setProjects(data)
-      setLoadingProjects(false)
     } catch (error) {
-      setLoadingProjects(false)
       console.log(error)
+    } finally {
+      setTimeout(() => {
+        setLoadingProjects(false)
+      }, 1000)
     }
   }
   const getTags = async () => {

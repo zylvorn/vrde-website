@@ -1,18 +1,32 @@
 'use client'
-
-import BaseLayout from '@/components/custom/base-layout'
-import AuthLayout from '../auth'
+import dynamic from 'next/dynamic'
 import useProjects, { TTag } from './hooks'
 import { Fragment, useEffect, useMemo, useState } from 'react'
-import CCheckbox from '@/components/custom/checkcbox'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { LinearProgress, MenuItem, Select } from '@mui/material'
-import { base64BlurDataURL } from '@/utils/constants/constants'
-import { motion, AnimatePresence } from 'framer-motion'
+import {
+  CircularProgress,
+  LinearProgress,
+  MenuItem,
+  Select,
+} from '@mui/material'
+import BaseLayout from '@/components/custom/base-layout'
+
+const LoadingFullScreen = () => {
+  return (
+    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
+      <CircularProgress />
+    </div>
+  )
+}
+
+const CCheckbox = dynamic(() => import('@/components/custom/checkcbox'))
+const AuthLayout = dynamic(() => import('../auth'), {
+  loading: () => <LoadingFullScreen />,
+})
+const ImageAnimated = dynamic(() => import('./image-animate'), {
+  loading: () => <LinearProgress />,
+})
 
 const Projects = () => {
-  const router = useRouter()
   const {
     getProjects,
     getTags,
@@ -90,7 +104,7 @@ const Projects = () => {
   }
   return (
     <AuthLayout>
-      <BaseLayout>
+      <BaseLayout showFooter={!loadingProjects}>
         <div style={{ marginTop: 70 }}>
           <div
             className='no-scrollbar w-[70%] px-[7%]'
@@ -116,6 +130,8 @@ const Projects = () => {
                   setOption(e.target.value)
                 }}
                 className='w-[200px] mt-2'
+                displayEmpty
+                defaultValue='Newest'
               >
                 {options.map((o) => (
                   <MenuItem key={o} value={o}>
@@ -181,56 +197,14 @@ const Projects = () => {
                 className='w-full transition-width duration-1000 ease-in-out'
                 style={{ width: imageWidth }}
               >
-                {loadingProjects && <LinearProgress className='!mb-2' />}
-                <div
-                  className={`no-scrollbar w-full grid-container !gap-0 transition-opacity duration-300 ${
-                    loadingProjects ? 'opacity-50' : 'opacity-100'
-                  }`}
-                >
-                  <AnimatePresence>
-                    {projects.map((item) => {
-                      const firstImg = item.images[0]
-                      const fImage =
-                        item.images.find((x) => x === item.cover_img) ||
-                        firstImg
-                      return (
-                        <motion.div
-                          key={item.id}
-                          layout
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.5 }}
-                          className='relative group cursor-pointer'
-                          onClick={() => router.push(`/projects/${item.id}`)}
-                        >
-                          <div className='w-full h-0 pb-[100%] relative'>
-                            <Image
-                              className='absolute inset-0 w-full h-full object-cover transition ease-out duration-300 hover:scale-105'
-                              alt={item.name}
-                              loading='lazy'
-                              width={300}
-                              height={300}
-                              src={`/static/projects/${fImage}`}
-                              placeholder='blur'
-                              blurDataURL={base64BlurDataURL}
-                            />
-                          </div>
-                          <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                            <div className='items-center justify-center text-center'>
-                              <p
-                                className='text-white text-lg'
-                                style={{ fontFamily: 'Source Sans Pro' }}
-                              >
-                                {item.name}
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )
-                    })}
-                  </AnimatePresence>
-                </div>
+                {loadingProjects ? (
+                  <LinearProgress />
+                ) : (
+                  <ImageAnimated
+                    loadingProjects={loadingProjects}
+                    projects={projects}
+                  />
+                )}
               </div>
             </div>
           </div>

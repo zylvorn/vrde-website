@@ -1,20 +1,18 @@
 'use client'
 import React, { useMemo, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import ClearIcon from '@mui/icons-material/Clear'
 import NavButton from '../nav-button'
 import VRDELogo from '../vrde-logo'
+import Link from 'next/link'
+import Footer from './footer'
 
 type TProps = {
   children?: React.ReactNode
+  showFooter?: boolean
 }
-const BaseLayout: React.FC<TProps> = ({ children }) => {
+const BaseLayout: React.FC<TProps> = ({ children, showFooter = true }) => {
   const pathName = usePathname()
-  const router = useRouter()
-  const onClick = (p: string) => {
-    router.push(p)
-    setModal(false)
-  }
   const selectedPath = (p: string) => {
     const defaultCl =
       'font-bold cursor-pointer z-[100] hover:text-cvrde text-lg'
@@ -60,41 +58,50 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
         )}
       </div>
 
-      <div
+      <Link
+        href='/home'
+        prefetch
+        onClick={() => setModal(false)}
         className={`nav-dynamic-show py-2 flex justify-start fixed top-0 left-0 z-[99]`}
-        onClick={() => onClick('/home')}
       >
         <VRDELogo fill={pathName === '/home' || modal ? 'white' : 'green'} />
-      </div>
+      </Link>
       {modal && (
         <div
           style={{ paddingTop: 200 }}
           className='nav-dynamic-show px-5 py-4 w-full h-screen bg-cgreen z-[99] items-center flex flex-col overflow-y-hidden'
         >
-          <div
+          <Link
+            onClick={() => setModal(false)}
+            href='/home'
+            prefetch
             className={selectedPathMobile('home')}
-            onClick={() => onClick('/home')}
           >
             Home
-          </div>
-          <div
+          </Link>
+          <Link
+            href='/projects'
+            onClick={() => setModal(false)}
+            prefetch
             className={selectedPathMobile('projects')}
-            onClick={() => onClick('/projects')}
           >
             Projects
-          </div>
-          <div
+          </Link>
+          <Link
+            onClick={() => setModal(false)}
+            href='/about'
+            prefetch
             className={selectedPathMobile('about')}
-            onClick={() => onClick('/about')}
           >
             About
-          </div>
-          <div
+          </Link>
+          <Link
+            onClick={() => setModal(false)}
+            href='/contacts'
             className={selectedPathMobile('contacts')}
-            onClick={() => onClick('/contacts')}
           >
             Contacts
-          </div>
+          </Link>
         </div>
       )}
       <div
@@ -102,34 +109,43 @@ const BaseLayout: React.FC<TProps> = ({ children }) => {
       >
         <VRDELogo fill={pathName === '/home' ? 'white' : 'green'} />
         <div className='flex w-[30%] items-center justify-around'>
-          <div
+          <Link
+            onClick={() => setModal(false)}
+            href='/home'
+            prefetch
             className={selectedPath('home')}
-            onClick={() => onClick('/home')}
           >
             Home
-          </div>
-          <div
+          </Link>
+          <Link
+            onClick={() => setModal(false)}
+            href='/projects'
+            prefetch
             className={selectedPath('project')}
-            onClick={() => onClick('/projects')}
           >
             Projects
-          </div>
-          <div
+          </Link>
+          <Link
+            onClick={() => setModal(false)}
+            href='/about'
+            prefetch
             className={selectedPath('about')}
-            onClick={() => onClick('/about')}
           >
             About
-          </div>
-          <div
-            onClick={() => onClick('/contacts')}
+          </Link>
+          <Link
+            onClick={() => setModal(false)}
+            href='/contacts'
+            prefetch
             className={selectedPath('contact')}
           >
             Contact
-          </div>
+          </Link>
         </div>
         <div />
       </div>
       {!modal && children}
+      {pathName !== '/home' && showFooter && <Footer />}
     </div>
   )
 }
