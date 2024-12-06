@@ -4,12 +4,11 @@ import AuthLayout from '@/app/auth'
 import BaseLayout from '@/components/custom/base-layout'
 import axios from 'axios'
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { TProject } from '../hooks'
 import moment from 'moment'
-import Image from 'next/image'
-import { base64BlurDataURL } from '@/utils/constants/constants'
 import OpenImageDialog from './open-image-dialog'
+import BluredImg from '@/components/custom/blured-img'
 
 const ProjectByID = () => {
   const params = useParams()
@@ -27,14 +26,7 @@ const ProjectByID = () => {
       getProjectByID(id)
     } else router.back()
   }, [params])
-  // const imgsCarousel = useMemo(() => {
-  //   return (
-  //     project?.images.map((img) => ({
-  //       src: `/static/projects/${img}`,
-  //       alt: 'image',
-  //     })) || []
-  //   )
-  // }, [project])
+
   const mainImg = useMemo(() => {
     if (project?.images) {
       if (project.images.length > 0) {
@@ -60,17 +52,19 @@ const ProjectByID = () => {
         />
         <div className='px-[7%] no-scrollbar' style={{ marginTop: 70 }}>
           {mainImg && (
-            <Image
-              src={mainImg || ''}
-              alt={'main img'}
-              className='img-fit transition-opacity duration-300 cursor-pointer'
-              style={{ objectFit: 'cover', height: 600 }}
-              width={600}
-              height={600}
-              placeholder='blur'
-              blurDataURL={base64BlurDataURL}
-              onClick={() => setDialogProps({ image: mainImg, isOpen: true })}
-            />
+            <Fragment>
+              <BluredImg
+                src={mainImg || ''}
+                alt={'main img'}
+                className='img-fit transition-opacity duration-300 cursor-pointer'
+                placeholderStyle={{ height: 600 }}
+                style={{ objectFit: 'cover', height: 600 }}
+                loading='lazy'
+                width={600}
+                height={600}
+                onClick={() => setDialogProps({ image: mainImg, isOpen: true })}
+              />
+            </Fragment>
           )}
           <div className='mt-10 mb-10 flex flex-col gap-2 items-center'>
             <p
@@ -102,15 +96,15 @@ const ProjectByID = () => {
             {project?.images
               .filter((x) => x !== project.main_img)
               .map((img) => (
-                <Image
+                <BluredImg
                   key={Math.random()}
                   className='border rounded-md img-fit cursor-pointer'
+                  placeholderStyle={{ height: 600 }}
                   alt={'alt-img'}
-                  placeholder='blur'
+                  loading='lazy'
                   width={300}
                   height={540}
                   src={`/static/projects/${img}`}
-                  blurDataURL={base64BlurDataURL}
                   onClick={() =>
                     setDialogProps({
                       image: `/static/projects/${img}`,

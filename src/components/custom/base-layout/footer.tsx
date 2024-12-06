@@ -3,7 +3,38 @@ import { Instagram, WhatsApp, LinkedIn } from '@mui/icons-material'
 import IContact from '@/app/contacts/types'
 import axios from 'axios'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
+const LazyText = dynamic(
+  () =>
+    Promise.resolve(() => (
+      <div
+        className='hover:text-cvrde cursor-pointer text-gray-800'
+        onClick={() => {
+          window.open(
+            'https://www.google.com/maps/uv?pb=!1s0x2e69c5bbd9518aed%3A0xca4be3469bba0852!3m1!7e115!4s%2Fmaps%2Fplace%2Fvrde%2Bstudio%2F%40-6.5672822%2C106.7808303%2C3a%2C75y%2C37.21h%2C90t%2Fdata%3D*213m4*211e1*213m2*211sZgGji9R7U9iji2Rs2EdTmg*212e0*214m2*213m1*211s0x2e69c5bbd9518aed%3A0xca4be3469bba0852%3Fsa%3DX%26ved%3D2ahUKEwinsNuvjJKKAxWm8qACHSxFG3wQpx96BAgwEAA!5svrde%20studio%20-%20Google%20Search!15sCgIgAQ&imagekey=!1e2!2sZgGji9R7U9iji2Rs2EdTmg&cr=le_a7&hl=en&ved=1t%3A206134&ictx=111',
+            '__blank'
+          )
+        }}
+      >
+        <div className='font-medium'>Jl. Tanjung VIII</div>
+        <div className='mt-2'>
+          Blok O6 No.14, RT.03/RW.12, Tanah Sareal, <br />
+          Kec. Tanah Sereal, Kota Bogor, Jawa Barat 16164
+        </div>
+      </div>
+    )),
+  { ssr: false }
+)
+const LazyText2 = dynamic(
+  () =>
+    Promise.resolve(() => (
+      <p className='text-gray-600 mt-2'>
+        © 2021 VRDE Studio. All rights reserved.
+      </p>
+    )),
+  { ssr: false }
+)
 const Footer: React.FC = () => {
   const [contactState, setContactState] = useState<IContact.IState>({
     html: '',
@@ -56,21 +87,7 @@ const Footer: React.FC = () => {
 
           {/* Address */}
           <div className='mt-6 md:mt-0 grid'>
-            <div
-              className='hover:text-cvrde cursor-pointer text-gray-800'
-              onClick={() => {
-                window.open(
-                  'https://www.google.com/maps/uv?pb=!1s0x2e69c5bbd9518aed%3A0xca4be3469bba0852!3m1!7e115!4s%2Fmaps%2Fplace%2Fvrde%2Bstudio%2F%40-6.5672822%2C106.7808303%2C3a%2C75y%2C37.21h%2C90t%2Fdata%3D*213m4*211e1*213m2*211sZgGji9R7U9iji2Rs2EdTmg*212e0*214m2*213m1*211s0x2e69c5bbd9518aed%3A0xca4be3469bba0852%3Fsa%3DX%26ved%3D2ahUKEwinsNuvjJKKAxWm8qACHSxFG3wQpx96BAgwEAA!5svrde%20studio%20-%20Google%20Search!15sCgIgAQ&imagekey=!1e2!2sZgGji9R7U9iji2Rs2EdTmg&cr=le_a7&hl=en&ved=1t%3A206134&ictx=111',
-                  '__blank'
-                )
-              }}
-            >
-              <div className='font-medium'>Jl. Tanjung VIII</div>
-              <div className='mt-2'>
-                Blok O6 No.14, RT.03/RW.12, Tanah Sareal, <br />
-                Kec. Tanah Sereal, Kota Bogor, Jawa Barat 16164
-              </div>
-            </div>
+            <LazyText />
             <p className='text-gray-600 mt-2'>
               <a className='hover:text-cvrde' href='#' onClick={sendMessage}>
                 {contactState.whatsapp}
@@ -82,10 +99,7 @@ const Footer: React.FC = () => {
             </p>
 
             {/* Copyright */}
-            <p className='text-gray-600 !mt-4 sm:mt-0'>
-              &copy; {new Date().getFullYear()} Studio VRDE. All rights
-              reserved.
-            </p>
+            <LazyText2 />
           </div>
         </div>
 
