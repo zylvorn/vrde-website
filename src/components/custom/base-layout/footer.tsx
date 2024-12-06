@@ -9,11 +9,16 @@ const Footer: React.FC = () => {
     html: '',
     whatsapp: '',
   })
-  const getContact = async () => {
-    try {
-      const { data } = await axios.get<IContact.IState>('/api/contacts')
-      setContactState(data)
-    } catch (error) {}
+  const getContact = () => {
+    // This for non blocking the rendering
+    axios
+      .get<IContact.IState>('/api/contacts')
+      .then((res) => {
+        setContactState(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   useEffect(() => {
     getContact()
