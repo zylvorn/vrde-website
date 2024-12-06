@@ -38,9 +38,7 @@ const useProjects = () => {
     } catch (error) {
       console.log(error)
     } finally {
-      setTimeout(() => {
-        setLoadingProjects(false)
-      }, 1000)
+      setLoadingProjects(false)
     }
   }
   const getTags = async () => {

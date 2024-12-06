@@ -2,18 +2,20 @@
 import dynamic from 'next/dynamic'
 import useProjects, { TTag } from './hooks'
 import { Fragment, useEffect, useMemo, useState } from 'react'
-import {
-  CircularProgress,
-  LinearProgress,
-  MenuItem,
-  Select,
-} from '@mui/material'
 import BaseLayout from '@/components/custom/base-layout'
+import { CircularProgress } from '@mui/material'
+const MenuItem = dynamic(() => import('@mui/material/MenuItem'))
+const Select = dynamic(() => import('@mui/material/Select'))
 
-const LoadingFullScreen = () => {
+const LoadingFullScreen: React.FC<{ isChild?: boolean }> = ({
+  isChild = false,
+}) => {
+  const className = isChild
+    ? 'fixed inset-0 flex items-center justify-center bg-cgray bg-opacity-30 z-50 top-[120px]'
+    : 'fixed inset-0 flex items-center justify-center bg-cgray bg-opacity-30 z-50'
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
-      <CircularProgress />
+    <div className={className}>
+      <CircularProgress size={60} />
     </div>
   )
 }
@@ -23,7 +25,7 @@ const AuthLayout = dynamic(() => import('../auth'), {
   loading: () => <LoadingFullScreen />,
 })
 const ImageAnimated = dynamic(() => import('./image-animate'), {
-  loading: () => <LinearProgress />,
+  loading: () => <LoadingFullScreen isChild />,
 })
 
 const Projects = () => {
@@ -127,7 +129,8 @@ const Projects = () => {
                 size='small'
                 value={option}
                 onChange={(e) => {
-                  setOption(e.target.value)
+                  const val = e.target.value as string
+                  setOption(val)
                 }}
                 className='w-[200px] mt-2'
                 displayEmpty
@@ -194,17 +197,14 @@ const Projects = () => {
                 ))}
               </div>
               <div
-                className='w-full transition-width duration-1000 ease-in-out'
+                className='w-full transition-width duration-300 ease-in-out'
                 style={{ width: imageWidth }}
               >
-                {loadingProjects ? (
-                  <LinearProgress />
-                ) : (
-                  <ImageAnimated
-                    loadingProjects={loadingProjects}
-                    projects={projects}
-                  />
-                )}
+                {loadingProjects && <LoadingFullScreen isChild />}
+                <ImageAnimated
+                  loadingProjects={loadingProjects}
+                  projects={projects}
+                />
               </div>
             </div>
           </div>
