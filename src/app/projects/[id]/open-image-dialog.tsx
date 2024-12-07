@@ -1,6 +1,7 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import Image from 'next/image'
 
 interface OpenImageDialogProps {
   isOpen: boolean
@@ -31,8 +32,9 @@ const OpenImageDialog: React.FC<OpenImageDialogProps> = ({
         </IconButton>
       </DialogTitle>
       <DialogContent dividers className='no-scrollbar'>
-        <img
+        <Image
           src={image}
+          loading='lazy'
           alt='Preview'
           style={{
             width: '100%',

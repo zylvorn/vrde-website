@@ -1,14 +1,20 @@
 'use client'
 
-import AuthLayout from '@/app/auth'
-import BaseLayout from '@/components/custom/base-layout'
 import axios from 'axios'
 import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import { TProject } from '../hooks'
 import moment from 'moment'
-import OpenImageDialog from './open-image-dialog'
-import BluredImg from '@/components/custom/blured-img'
+import { LoadingFullScreen } from '@/components/custom/loading'
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import BaseLayout from '@/components/custom/base-layout'
+
+const AuthLayout = dynamic(() => import('@/app/auth'), {
+  loading: () => <LoadingFullScreen />,
+})
+
+const OpenImageDialog = dynamic(() => import('./open-image-dialog'))
 
 const ProjectByID = () => {
   const params = useParams()
@@ -21,10 +27,13 @@ const ProjectByID = () => {
     }
   }
   useEffect(() => {
+    router.prefetch('/projects')
+  }, [])
+  useEffect(() => {
     if (params.id) {
       const id = params.id as string
       getProjectByID(id)
-    } else router.back()
+    } else router.push('/projects')
   }, [params])
 
   const mainImg = useMemo(() => {
@@ -42,30 +51,42 @@ const ProjectByID = () => {
     isOpen: false,
     image: '',
   })
+
+  const [loadImage, setLoadImage] = useState(true)
   return (
     <AuthLayout>
-      <BaseLayout>
+      <BaseLayout showFooter={!!project?.main_img}>
         <OpenImageDialog
           isOpen={dialogProps.isOpen}
           onClose={() => setDialogProps({ image: '', isOpen: false })}
           image={dialogProps.image}
         />
         <div className='px-[7%] no-scrollbar' style={{ marginTop: 70 }}>
-          {mainImg && (
-            <Fragment>
-              <BluredImg
-                src={mainImg || ''}
-                alt={'main img'}
-                className='img-fit transition-opacity duration-300 cursor-pointer'
-                placeholderStyle={{ height: 600 }}
-                style={{ objectFit: 'cover', height: 600 }}
-                loading='lazy'
-                width={600}
-                height={600}
-                onClick={() => setDialogProps({ image: mainImg, isOpen: true })}
-              />
-            </Fragment>
-          )}
+          <Fragment>
+            <div
+              onClick={() =>
+                mainImg && setDialogProps({ image: mainImg, isOpen: true })
+              }
+              className={`opacity-30 transition-opacity h-[600px] duration-300 cursor-pointer bg-placeholder ${
+                loadImage ? '' : 'hidden'
+              }`}
+            />
+            <Image
+              src={mainImg || ''}
+              alt={'main img'}
+              className={`img-fit transition-opacity duration-300 cursor-pointer ${
+                loadImage ? 'hidden' : ''
+              }`}
+              style={{ objectFit: 'cover', height: 600 }}
+              loading='lazy'
+              width={600}
+              height={600}
+              onClick={() =>
+                mainImg && setDialogProps({ image: mainImg, isOpen: true })
+              }
+              onLoad={() => setLoadImage(false)}
+            />
+          </Fragment>
           <div className='mt-10 mb-10 flex flex-col gap-2 items-center'>
             <p
               className='text-3xl font-bold'
@@ -96,10 +117,9 @@ const ProjectByID = () => {
             {project?.images
               .filter((x) => x !== project.main_img)
               .map((img) => (
-                <BluredImg
+                <Image
                   key={Math.random()}
                   className='border rounded-md img-fit cursor-pointer'
-                  placeholderStyle={{ height: 600 }}
                   alt={'alt-img'}
                   loading='lazy'
                   width={300}

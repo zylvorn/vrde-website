@@ -3,22 +3,9 @@ import dynamic from 'next/dynamic'
 import useProjects, { TTag } from './hooks'
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import BaseLayout from '@/components/custom/base-layout'
-import { CircularProgress } from '@mui/material'
+import { LoadingFullScreen } from '@/components/custom/loading'
 const MenuItem = dynamic(() => import('@mui/material/MenuItem'))
 const Select = dynamic(() => import('@mui/material/Select'))
-
-const LoadingFullScreen: React.FC<{ isChild?: boolean }> = ({
-  isChild = false,
-}) => {
-  const className = isChild
-    ? 'fixed inset-0 flex items-center justify-center bg-cgray bg-opacity-30 z-50 top-[120px]'
-    : 'fixed inset-0 flex items-center justify-center bg-cgray bg-opacity-30 z-50'
-  return (
-    <div className={className}>
-      <CircularProgress size={60} />
-    </div>
-  )
-}
 
 const CCheckbox = dynamic(() => import('@/components/custom/checkcbox'))
 const AuthLayout = dynamic(() => import('../auth'), {
