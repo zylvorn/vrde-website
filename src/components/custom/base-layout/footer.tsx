@@ -17,6 +17,7 @@ const LazyText = dynamic(
           )
         }}
       >
+        <div className='font-medium'>PT. VERDE RUANG DESIGN</div>
         <div className='font-medium'>Jl. Tanjung VIII</div>
         <div className='mt-2'>
           Blok O6 No.14, RT.03/RW.12, Tanah Sareal, <br />
